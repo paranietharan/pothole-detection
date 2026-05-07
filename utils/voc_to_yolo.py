@@ -1,6 +1,4 @@
 import xml.etree.ElementTree as ET
-import os
-from pathlib import Path
 import logging
 
 def convert_bbox(size, box):

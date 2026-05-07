@@ -61,12 +61,6 @@ SPLIT_RATIOS = {
 # Random seed for reproducibility
 RANDOM_SEED = 42
 
-# Duplicate detection
-# Perceptual hash size (higher → more sensitive, slower)
-PHASH_HASH_SIZE = 8
-# Two images are considered duplicates if their hash distance ≤ this value
-PHASH_DISTANCE_THRESHOLD = 5
-
 # Logging
 LOG_DIR = Path(os.getenv("LOG_DIR", "./logs"))
 LOG_FILE = LOG_DIR / "preprocess.log"

@@ -8,7 +8,7 @@ from utils.cleaner import clean_dataset
 from utils.splitter import split_dataset
 
 def setup_logging():
-    config.LOG_DIR.mkdir(exist_ok=True)
+    config.LOG_DIR.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s [%(levelname)s] %(message)s',
@@ -52,7 +52,14 @@ def main():
         
         # Convert XML to YOLO .txt
         output_txt = config.WORK_LABELS_DIR / f"{img_stem}.txt"
-        voc_to_yolo(xml_path, output_txt, config.CLASS_MAP)
+        if not voc_to_yolo(xml_path, output_txt, config.CLASS_MAP):
+             if output_txt.exists():
+                 output_txt.unlink()
+             logging.warning(f"Failed to convert annotation {xml_path}. Skipping image {img_path}.")
+             continue
+        
+        # Only copy the image after a successful label conversion.
+        shutil.copy(str(img_path), config.WORK_IMAGES_DIR / f"{img_stem}.jpg")
 
     # 3. Data Cleaning & Validation
     logging.info("Step 2: Cleaning dataset and detecting duplicates...")

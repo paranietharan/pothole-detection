@@ -3,10 +3,7 @@ import os
 from pathlib import Path
 
 def has_kaggle_credentials() -> bool:
-    return bool(os.getenv("KAGGLE_USERNAME") and os.getenv("KAGGLE_KEY")) or (
-        (Path.home() / ".kaggle" / "credentials.json").exists()
-        or (Path.home() / ".kaggle" / "kaggle.json").exists()
-    )
+    return bool(os.getenv("KAGGLE_USERNAME") and os.getenv("KAGGLE_KEY"))
 
 def download_dataset(dataset_id, download_path):
     """
@@ -26,7 +23,6 @@ def download_dataset(dataset_id, download_path):
         return False
     except Exception as e:
         logging.error(f"Kaggle API error: {e}")
-        logging.info("Ensure Kaggle credentials are present in .env, ~/.kaggle/credentials.json, or ~/.kaggle/kaggle.json and are valid.")
         return False
 
     download_path = Path(download_path)
